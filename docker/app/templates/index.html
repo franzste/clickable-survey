@@ -23,6 +23,8 @@
 
       <p id="survey_description">{{ survey_description }}</p>
 
+
+
       <div class="mb-3">
         <div class="input-group-prepend">
       <label for="abschluss">Höchster Bildungsabschluss</label><br>
@@ -48,7 +50,7 @@
       </div> -->
 
       <p id="paragraph">
-        {{ survey_text }}
+        {{ survey_text|safe }}
       </p>
       <button type="button" class="btn btn-primary" id="sendButton">Send Words to API</button>
     </div>
@@ -97,6 +99,10 @@
       if (clickedWords.length > 0) {
         // Sortiere clickedWords nach der Position
         clickedWords.sort((a, b) => a.position - b.position);
+
+        // Höchster Bildungsabschluss
+        const buildungsabschluss = document.getElementById('abschluss').value;
+
         console.log('Wörter zum Senden:', clickedWords);
         // Hier wird ein POST-Request an die API gesendet
         fetch('{{ server_ip }}/api/words', {
@@ -104,7 +110,7 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ words: clickedWords })
+          body: JSON.stringify({abschluss: buildungsabschluss, words: clickedWords })
         })
         .then(response => {
           if (response.ok) {
