@@ -1,8 +1,10 @@
-# Clickable Survey
+# Clickable Word Survey
 
 **Please note that this project is currently under development and at this point not easy to customize.**
 
 This clickable survey is an python flask application.
+
+![](docs/clickable_word_survey_example.png)
 
 ## Todo
 - [ ] save result in database or csv
