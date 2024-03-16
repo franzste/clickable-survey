@@ -67,28 +67,27 @@
 
       if (event.target.classList.contains('clickable-word')) {
         const word = event.target.textContent;
+        const position = Array.from(paragraph.children).indexOf(event.target);
         var was_clicked = 0;
 
-        // Prüfe, ob das Wort bereits geklickt wurde und lösche es ggf. von der Liste
-        if(clickedWords.includes(word) && was_clicked == 0) {
-          clickedWords.pop(word);
+          // Prüfe, ob das Wort bereits geklickt wurde und lösche es ggf. von der Liste
+          const wordIndex = clickedWords.findIndex(clickedWord => clickedWord.word === word);
+          if(wordIndex !== -1) {
+            // Wort aus der Liste entfernen
+            clickedWords.splice(wordIndex, 1);
 
-          // Style zurücksetzen
-          event.target.style.color = 'blue'; // optional: visually indicate clicked word
-          event.target.style.fontWeight = 'normal'; // optional: visually indicate clicked word
-          event.target.classList.remove('badge', 'bg-primary');
-          was_clicked = 1;
-        }
+            // Style zurücksetzen
+            event.target.style.color = 'blue'; // optional: visually indicate clicked word
+            event.target.style.fontWeight = 'normal'; // optional: visually indicate clicked word
+            event.target.classList.remove('badge', 'bg-primary');
+          } else {
+            // Wort zur Liste hinzufügen
+            clickedWords.push({word, position});
 
-        // Prüfe, ob das Wort bereits geklickt wurde und füge es ggf. zur Liste hinzu
-        if (!clickedWords.includes(word)&& was_clicked == 0) {
-          clickedWords.push(word);
-
-          // Style setzen
-          event.target.style.color = 'white'; // optional: visually indicate clicked word
-          event.target.style.fontWeight = 'bold'; // optional: visually indicate clicked word
-          event.target.classList.add('badge', 'bg-primary');
-          was_clicked = 1;
+            // Style setzen
+            event.target.style.color = 'white'; // optional: visually indicate clicked word
+            event.target.style.fontWeight = 'bold'; // optional: visually indicate clicked word
+            event.target.classList.add('badge', 'bg-primary');
         }
       }
     });
@@ -96,6 +95,8 @@
     // Event-Listener für das Klicken auf den Senden-Button
     sendButton.addEventListener('click', () => {
       if (clickedWords.length > 0) {
+        // Sortiere clickedWords nach der Position
+        clickedWords.sort((a, b) => a.position - b.position);
         console.log('Wörter zum Senden:', clickedWords);
         // Hier wird ein POST-Request an die API gesendet
         fetch('{{ server_ip }}/api/words', {
