@@ -6,15 +6,21 @@ This clickable survey is an python flask application.
 
 ## Todo
 - [ ] save result in database or csv
+- [ ] remove bootstrap cdn (use local)
+- [ ] customizeable input fields with pre-selection
 
 ## Usage
 
 **requirements:**
 - docker
 
-
-
 ## Installation
 
+## Configuration
+
 ## How does it work?
-The HTML inside the `docker/app/template/index.html` sends `POST` requests to the flask API. 
+
+![](docs/clickable_survey_architecture.png)
+
+Flask is providing at the default `/` URL the `index.html`. The HTML is located in `docker/app/template/index.html` and sends `POST` requests back to the flask API. 
+
